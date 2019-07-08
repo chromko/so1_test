@@ -15,6 +15,7 @@ spec:
         image: wurstmeister/kafka
         ports:
         - containerPort: 9092
+        - containerPort: 9099
         env:
         - name: KAFKA_ADVERTISED_PORT
           value: "30718"
@@ -26,3 +27,7 @@ spec:
           value: "0"
         - name: KAFKA_CREATE_TOPICS
           value: admintome-test:1:1
+        - name: JMX_PORT
+          value: "9099"
+        - name: KAFKA_JMX_OPTS
+          value: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=9099"

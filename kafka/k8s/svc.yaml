@@ -10,6 +10,9 @@ spec:
   - port: 9092
     name: kafka-port
     protocol: TCP
+  - port: 9099
+    name: jmx-port
+    protocol: TCP
   selector:
     app: kafka
     id: "0"
