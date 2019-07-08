@@ -2,6 +2,10 @@
 
 Create a nagios check that will detect if there are kafka topics that are not replicated on every kafka node. (If you don't know nagios, you could consider creating script that will output meaningful status)
 
+Simple script (of, course it's awful. I'd not to spend so much time for searching right jmx bean.)
+
+../kafka/kafka_metrics.py
+
 ## Task 3 (most important)
 
 1. Set up (in kubernetes/minikube) 2 pods with a java example app:
