@@ -1,6 +1,7 @@
 FROM maven:3.3.9 as build
 WORKDIR /tmp
-COPY ../app .
+COPY ./app .
+COPY application.properties ./src/main/resources/application.properties
 RUN set -xe;  \
     mvn -B clean; \
     mvn -B compile; \

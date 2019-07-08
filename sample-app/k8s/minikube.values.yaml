@@ -20,6 +20,9 @@ service:
 
 mysql:
   enabled: true
+  mysqlDatabase: test
+  mysqlUser: sa
+  mysqlPassword: password
 
 ingress:
   domain: localhost
