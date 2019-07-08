@@ -25,9 +25,9 @@ mysql:
   mysqlPassword: password
 
 ingress:
-  domain: localhost
+  domain: local
   http:
-    path: /start
+    path: /
     name: http
     tls:
       enabled: false
