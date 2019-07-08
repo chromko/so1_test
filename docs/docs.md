@@ -4,7 +4,7 @@ Create a nagios check that will detect if there are kafka topics that are not re
 
 Simple script (of, course it's awful. I'd not to spend so much time for searching right jmx bean.)
 
-(../kafka/kafka_metrics.py)[../kafka/kafka_metrics.py]
+[kafka_metrics.py](../kafka/kafka_metrics.py)
 
 ## Task 3 (most important)
 
