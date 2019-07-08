@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "app.name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicasCount }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+  selector:
+    matchLabels: {{ include "app.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "app.labels" . | nindent 8 }}
+    spec:
+      initContainers:
+      {{- if .Values.extraInitContainers }}
+{{ tpl (toYaml .Values.extraInitContainers) . | indent 6 }}
+      {{- end }}
+      containers:
+      - name: "{{ .Values.app.component }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+{{- if .Values.resources }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+{{- end }}
+        ports:
+        {{- range .Values.service.ports }}
+          - name: {{ .name }}
+            containerPort: {{ default .port .targetPort }}
+        {{- end }}
+        {{- if .Values.probes }}
+        {{- if .Values.probes.readinessProbe }}
+        readinessProbe:
+        {{- tpl (toYaml .Values.probes.readinessProbe) . | nindent 10 }}
+        {{- end -}}
+        {{- if .Values.probes.livenessProbe }}
+        livenessProbe:
+        {{- tpl (toYaml .Values.probes.livenessProbe) . | nindent 10 }}
+        {{- end -}}
+        {{- end }}
+        imagePullPolicy: Always
+        env:
+          - name: CONFIG_PATH
+            value: /etc/secrets/config
+        {{- if .Values.extraEnv }}
+{{ toYaml .Values.extraEnv | nindent 10 }}
+        {{- end }}
+{{- if .Values.extraContainers }}
+{{ tpl (toYaml .Values.extraContainers) . | indent 6}}
+{{- end }}

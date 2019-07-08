@@ -1,0 +1,58 @@
+---
+service:
+  internalPort: 9292
+  externalPort: 9292
+
+image:
+  repository: example/test
+  tag: latest
+
+
+---
+app:
+  name: sample-app
+  component: backend
+  branch: master
+  env: dev
+  version: latest
+
+replicasCount: 1
+strategy:
+  type: recreate
+
+image:
+  repository: example
+  tag: latest
+
+extraEnv:
+
+
+probes: {}
+resources: {}
+extraInitContainers: {}
+
+ingress:
+  domain: example.com
+  http:
+    name: http
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      kubernetes.io/ingress.allow-http: "false"
+      ingress.kubernetes.io/proxy-body-size: 50m
+      nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+      nginx.ingress.kubernetes.io/client-max-body-size: 50m
+      nginx.ingress.kubernetes.io/proxy-body-size: 50m
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: 90s
+      nginx.ingress.kubernetes.io/proxy-read-timeout: 90s
+      # nginx.ingress.kubernetes.io/rewrite-target: /
+    tls:
+      enabled: false
+
+service:
+  type: ClusterIP
+  headless: false
+  annotations:
+  ports:
+    - name: http
+      port: 8080

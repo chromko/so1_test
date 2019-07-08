@@ -1,0 +1,41 @@
+{{- $ingress := .Values.ingress.http -}}
+{{- if $ingress.enabled -}}
+---
+{{- $serviceName := include "app.fullname" . -}}
+{{- $servicePort := default $ingress.name $ingress.servicePort -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "app.name" . }}-{{ $ingress.name }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "app.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  {{- if $ingress.annotations }}
+    {{- toYaml $ingress.annotations | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    - host: {{ template "ingress.host" . }}
+      http:
+        paths:
+          - path: {{ default "/" $ingress.path }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+
+    - host: {{ template "ingress.shortHost" . }}
+      http:
+        paths:
+          - path: {{ default "/" $ingress.path }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- if $ingress.tls.enabled }}
+  tls:
+  - hosts:
+    - {{ template "ingress.shortHost" . }}
+    - {{ template "ingress.host" . }}
+    secretName: {{ $ingress.tls.secretName }}
+  {{- end }}
+{{- end -}}

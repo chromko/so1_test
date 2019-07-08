@@ -1,0 +1,20 @@
+app:
+  name: sample-app
+  component: backend
+  branch: master
+  env: dev
+
+replicasCount: 1
+
+image:
+  repository: chromko/sample-app
+  tag: latest
+
+service:
+  headless: true
+  ports:
+    - name: http
+      port: 8086
+
+mysql:
+  enabled: true

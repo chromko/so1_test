@@ -1,0 +1,7 @@
+name: sample-app
+version: 1.0.0
+description: Sample app chart
+maintainers:
+  - name: Mischenko Dmitry
+    email: mich.dima@gmail.com
+appVersion: 1.0
