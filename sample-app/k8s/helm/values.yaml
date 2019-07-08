@@ -1,14 +1,3 @@
----
-service:
-  internalPort: 9292
-  externalPort: 9292
-
-image:
-  repository: example/test
-  tag: latest
-
-
----
 app:
   name: sample-app
   component: backend
@@ -18,7 +7,7 @@ app:
 
 replicasCount: 1
 strategy:
-  type: recreate
+  type: Recreate
 
 image:
   repository: example

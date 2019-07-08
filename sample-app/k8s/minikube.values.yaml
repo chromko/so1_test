@@ -5,6 +5,8 @@ app:
   env: dev
 
 replicasCount: 1
+# strategy:
+#   type: Recreate
 
 image:
   repository: chromko/sample-app
@@ -18,3 +20,11 @@ service:
 
 mysql:
   enabled: true
+
+ingress:
+  domain: localhost
+  http:
+    path: /start
+    name: http
+    tls:
+      enabled: false

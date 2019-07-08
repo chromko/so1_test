@@ -38,5 +38,5 @@ s
 app: {{ template "app.name" . }}
 env: {{ .Values.app.env }}
 component: {{ .Values.app.component }}
-version: {{ .Values.app.version }}
+version: {{ .Values.image.tag }}
 {{- end -}}
